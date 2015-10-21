@@ -10,11 +10,11 @@ angular.module('tagsCategorizer',[angularDragula(angular)]);
 
 angular.module('tagsCategorizer')
     .directive('tagsCategorizer',['$parse', '$document', '$http', '$timeout', '$compile','$templateCache',
-        function($parse, $document, $timeout, $compile, $templateCache){
+        function($parse, $document, $http, $timeout, $compile, $templateCache){
             return {
                 restrict: 'E',
                 templateUrl: 'angular-tagscategorizer.html',
-                controller: function tagsCategorizerCtrl($scope, dragulaService){
+                controller: ['$scope', 'dragulaService', function tagsCategorizerCtrl($scope, dragulaService){
 
                     $scope.$on('second-bag.drag', function (e, el) {
                         el.removeClass('ex-moved');
@@ -118,7 +118,7 @@ angular.module('tagsCategorizer')
                         tags.splice(index, 1);
                     };
 
-                },
+                }],
                 link: function(scope, element, attrs) {
 
 

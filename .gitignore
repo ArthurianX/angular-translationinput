@@ -5,3 +5,5 @@ build/
 
 .jshintrc
 .idea/
+
+.DS_Store
