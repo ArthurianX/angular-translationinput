@@ -1,0 +1,50 @@
+{
+  "name": "angular-tagscategorizer",
+  "version": "0.1.0",
+  "main": [
+    "dist/angular-tagscategorizer.js",
+    "dist/angular-tagscategorizer.css"
+  ],
+  "dependencies": {
+    "angular": "~1.3",
+    "angular-animate": "~1.3"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "temp",
+    "demo",
+    "lib",
+    "./angular-tagscategorizer.css",
+    "./angular-tagscategorizer.html",
+    "./angular-tagscategorizer.js",
+    "Gruntfile.js",
+    "package.json",
+    "README.md",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular-mocks": "~1.3",
+    "dragula": "~3.5.2",
+    "angular-dragula": "~1.1.4"
+  },
+  "resolutions": {
+    "angular": "1.3.19"
+  },
+  "homepage": "https://github.com/ArthurianX/angular-tagscategorizer",
+  "authors": [
+    "Kovacs Arthur <kovacs.arthur.kraid@gmail.com>"
+  ],
+  "description": "Angular Tags Categorizer, drag and drop tags into their categories",
+  "keywords": [
+    "tags",
+    "categorizer",
+    "tags categorizer",
+    "organizer",
+    "tags organizer"
+  ],
+  "license": "MIT"
+}

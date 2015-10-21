@@ -1,0 +1,49 @@
+<div class="ar-tags-categorizer">
+    <div class="row">
+
+        <div class="groups-list col-md-6">
+
+            <div class="add-group">
+                <input type="text" ng-model="newGroup">
+                <button ng-click="addNewGroup()">Add</button>
+            </div>
+            <uib-accordion close-others="true">
+
+                <uib-accordion-group ng-repeat="group in tagsGroups track by $index"
+                                     is-open="status[$index].open">
+                    <uib-accordion-heading>
+                        <span ng-if="!renameGroup[$index]">{{group.name}}</span>
+                        <input type="text" class="rename" ng-model="group.name" ng-click="stopEvent($event)" ng-if="renameGroup[$index] && status[$index].open">
+                        <div class="pull-right">
+                            <span ng-if="status[$index].open" ng-click="editGroup($event, $index)"><i class="fa fa-pencil-square-o"></i></span>
+                            <span class="remove-group" ng-if="status[$index].open" ng-click="deleteGroup($event, $index)"><i class="fa fa-times"></i></span>
+                            <button type="button" class="btn btn-info nr-tags">{{group.tags.length}} <i class="fa fa-tags"></i></button>
+                            <i class="glyphicon" ng-class="{'glyphicon-chevron-down': status[$index].open, 'glyphicon-chevron-right': !status[$index].open}"></i>
+                        </div>
+                    </uib-accordion-heading>
+
+                    <div class="inside-bag"
+                         dragula='"unused-bag"'
+                         dragula-model="group.tags">
+                        <!--dragula="{{group.short + "-bag"}}"-->
+              <span class="tag" ng-repeat="tag in group.tags track by $index">
+                <i class="fa fa-tag"></i> {{tag}} <i ng-click="removeAssignedTag(group.tags, $index)" class="glyphicon glyphicon-remove"></i>
+              </span>
+                    </div>
+
+                </uib-accordion-group>
+
+            </uib-accordion>
+
+        </div>
+
+        <div class="ungrouped-tags col-md-6"
+             dragula='"unused-bag"'
+             dragula-model="ungroupedTags">
+        <span class="unsel-tag" ng-repeat="tag in ungroupedTags track by $index">
+            <i class="fa fa-tag"></i> {{tag}} <i ng-click="removeAssignedTag(group.tags, $index)" class="glyphicon glyphicon-remove"></i>
+        </span>
+        </div>
+
+    </div>
+</div>
