@@ -9,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
     <link href="../dist/angular-tagscategorizer.css" rel="stylesheet">
     <link href="../bower_components/dragula/dist/dragula.css" rel="stylesheet">
+    <link href="../bower_components/v-accordion/dist/v-accordion.min.css" rel="stylesheet">
     <link href="gh-fork-ribbon.css" rel="stylesheet">
 
 </head>
@@ -33,11 +34,15 @@
         </div>
 
         <div class="row">
-        <legend></legend>
+            <legend></legend>
+            <tags-categorizer
+                    tags-groups="tagsGroups"
+                    ungrouped-tags="ungroupedTags"
+                    add-group="addGroupExt(group)"
+                    update-group="updateGroupExt(group)"
+                    delete-group="deleteGroupExt(group)">
 
-
-        <tags-categorizer></tags-categorizer>
-
+            </tags-categorizer>
         </div>
 
     </div>
@@ -46,9 +51,11 @@
 
 
 <script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/jquery/jquery.js"></script>
 <script src="../bower_components/angular-animate/angular-animate.js"></script>
 <script src="../bower_components/dragula/dist/dragula.js"></script>
 <script src="../bower_components/angular-dragula/dist/angular-dragula.js"></script>
+<script src="../bower_components/v-accordion/dist/v-accordion.js"></script>
 <script src="../dist/angular-tagscategorizer.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.0/ui-bootstrap-tpls.min.js'></script>
 <script src="demo.js"></script>

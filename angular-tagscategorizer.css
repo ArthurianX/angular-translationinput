@@ -5,23 +5,28 @@
     background-color: rgba(0, 0, 0, 0.2);
     transition: opacity 0.4s ease-in-out;
 }
+
 .ar-tags-categorizer .container div {
     cursor: move;
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
 }
+
 .ar-tags-categorizer .gu-mirror {
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
 }
+
 .ar-tags-categorizer .container .ex-moved {
     background-color: #e74c3c;
 }
+
 .ar-tags-categorizer .container.ex-over {
     background-color: rgba(255, 255, 255, 0.3);
 }
+
 .ar-tags-categorizer .handle {
     padding: 0 5px;
     margin-right: 5px;
@@ -29,20 +34,29 @@
     cursor: move;
 }
 
+.ar-tags-categorizer #ar-bag {
+    display: block;
+    clear: both;
+}
 
 .ar-tags-categorizer .groups-list {
 }
 
 .ar-tags-categorizer .nr-tags {
-    padding: 0px 8px 5px 8px;
-    line-height: 16px;
+    padding: 3px 8px 4px 8px;
+    line-height: 12px;
 }
 
 .ar-tags-categorizer .nr-tags i {
     font-size: 0.9em;
     vertical-align: middle;
-    padding-top: 2px;
+    padding-top: 1px;
 }
+
+.ar-tags-categorizer .arrow {
+    padding: 0 5px 0 8px;
+}
+
 .ar-tags-categorizer .ungrouped-tags span {
     margin: 2px;
     padding: 0 5px;
@@ -61,6 +75,7 @@
     cursor: pointer;
 
 }
+
 .ar-tags-categorizer .unsel-tag.selected {
     background-color: #f21c0a;
     border-color: #f21c0a;
@@ -69,21 +84,30 @@
 
 .ar-tags-categorizer .groups-list .remove-group {
     color: #f21c0a;
+    padding: 5px 5px 0px 5px;
+    font-size: 1.2em;
+}
+.ar-tags-categorizer .groups-list .edit-group {
+    padding: 5px 2px 0px 5px;
+    font-size: 1.2em;
 }
 
-.ar-tags-categorizer .inside-bag {
-    min-height: 60px;
+.ar-tags-categorizer .bags .bag .tags {
+    min-height: 78px;
+    padding: 5px;
+    border-color: #f1f1f1;
+    border-style: solid;
 }
 
-.ar-tags-categorizer .inside-bag.ex-over {
+.ar-tags-categorizer  .bags .bag .tags.ex-over {
     background-color: #f2f2f2;
 }
 
-.ar-tags-categorizer .inside-bag i.tag {
+.ar-tags-categorizer .bags .bag .tags i.tag {
     display: none;
 }
 
-.ar-tags-categorizer .inside-bag span {
+.ar-tags-categorizer .bags .bag .tags span {
     margin: 2px;
     padding: 0 5px;
     display: inline-block;
@@ -101,7 +125,7 @@
     cursor: pointer;
 }
 
-.ar-tags-categorizer .inside-bag i.fa-tag {
+.ar-tags-categorizer .bags .bag .tags i.fa-tag {
     display: none;
 }
 
@@ -112,3 +136,48 @@
 .ar-tags-categorizer .panel-title a {
     outline: none;
 }
+
+
+.ar-tags-categorizer .bags {
+
+}
+
+.ar-tags-categorizer .bag {
+    clear: both;
+    margin: 5px 0;
+}
+
+.ar-tags-categorizer .bag .title {
+    cursor: pointer;
+    background-color: #f1f1f1;
+    padding: 10px 5px 10px 15px;
+}
+.ar-tags-categorizer .bag .title.editing {
+    border-top:2px solid mediumseagreen;
+}
+
+
+.ar-tags-categorizer .add-group {
+    background-color: #f1f1f1;
+    padding: 7px;
+}
+
+.ar-tags-categorizer .add-group input {
+    width: 100%;
+    outline: none;
+    padding-left: 5px;
+}
+
+.ar-tags-categorizer .add-group button {
+    outline: none;
+    float: right;
+    margin-top: -26px;
+    border: 0px solid #fff;
+    background-color: transparent;
+    color: mediumseagreen;
+    padding: 1px 10px;
+    position: relative;
+    font-size: 1.2em;
+}
+
+

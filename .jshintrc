@@ -190,7 +190,9 @@
 
     /* ng/directive/form.js */
     "nullFormCtrl": false,
-    "angularDragula": false
+    "angularDragula": false,
+    "console": false
+
 
   }
 }

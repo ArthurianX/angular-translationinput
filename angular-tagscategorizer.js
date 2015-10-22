@@ -6,46 +6,52 @@ if (typeof dragula == 'undefined') {
     throw "Exception: dragula.js is undefined. Please add the library as a dependency to your project";
 }
 
-angular.module('tagsCategorizer',[angularDragula(angular)]);
+angular.module('tagsCategorizer',[]);
 
 angular.module('tagsCategorizer')
     .directive('tagsCategorizer',['$parse', '$document', '$http', '$timeout', '$compile','$templateCache',
         function($parse, $document, $http, $timeout, $compile, $templateCache){
             return {
                 restrict: 'E',
+                scope: {
+                    tagsGroups: '=tagsGroups',
+                    ungroupedTags: '=ungroupedTags',
+                    addGroup: '&addGroup',
+                    updateGroup: '&updateGroup',
+                    deleteGroup: '&deleteGroup'
+                },
                 templateUrl: 'angular-tagscategorizer.html',
-                controller: ['$scope', 'dragulaService', function tagsCategorizerCtrl($scope, dragulaService){
+                controller: ['$scope', function tagsCategorizerCtrl($scope){
 
-                    $scope.$on('second-bag.drag', function (e, el) {
-                        el.removeClass('ex-moved');
-                    });
+                    // Init
 
-                    $scope.$on('second-bag.drop', function (e, el) {
-                        el.addClass('ex-moved');
-                    });
-
-                    $scope.$on('second-bag.over', function (e, el, container) {
-                        container.addClass('ex-over');
-                    });
-
-                    $scope.$on('second-bag.out', function (e, el, container) {
-                        container.removeClass('ex-over');
-                    });
-
-                    //////////////////////////////////
                     $scope.newGroup = '';
                     $scope.renameGroup = [];
+
+                    //Actions
                     $scope.addNewGroup = function(){
-                        //console.log('Poof');
-                        $scope.tagsGroups.unshift({name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()});
-                        $scope.newGroup = '';
+                        if ($scope.newGroup.length > 3) {
+                            $scope.tagsGroups.unshift({name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()});
+                            $scope.newGroup = '';
+                            $scope.addGroup($scope.newGroup);
+                        }
+                    };
+
+                    $scope.checkAddNew = function(event){
+                        if (event.keyCode == 13) {
+                            $scope.addNewGroup();
+                        }
                     };
 
                     $scope.editGroup = function(e, index){
-                        //console.log('Edit Group');
                         e.preventDefault();
                         e.stopPropagation();
+                        if ($scope.renameGroup[index]){
+                            //Means we're closing the edit ?
+                            $scope.updateGroup($scope.tagsGroups[index]);
+                        }
                         $scope.renameGroup[index] = !$scope.renameGroup[index];
+
 
                     };
 
@@ -54,74 +60,43 @@ angular.module('tagsCategorizer')
                         e.preventDefault();
                     };
 
-                    $scope.deleteGroup = function(e, index){
+                    $scope.deleteTagGroup = function(e, index){
+                        console.log($scope.tagsGroups);
+                        $scope.ungroupedTags = $scope.ungroupedTags.concat($scope.tagsGroups[index].tags);
                         $scope.tagsGroups.splice(index, 1);
+                        $scope.deleteGroup($scope.tagsGroups[index]);
                     };
 
-                    $scope.status = [];
+                    $scope.makeVisible = function(index) {
 
-                    $scope.tagsGroups = [
-                        {id: 1, name: 'Weather Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'weather'},
-                        {id: 2, name: 'Area Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'area'},
-                        {id: 3, name: 'Electric Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'electric'},
-                        {id: 4, name: 'Region Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'region'},
-                        {id: 5, name: 'Gas Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'gas'},
-                        {id: 6, name: 'Heat Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'heat'},
-                    ];
+                        if ($scope.renameGroup.indexOf(true) > -1) {
+                            return false;
+                        }
 
-                    $scope.ungroupedTags = [
-                        'tag1', 'tag2', 'ElectroTag1', 'ReadingArea', 'LuttonMC', 'DixonskWh', 'CroatoanR', 'ReginaldCityHall',
-                        'SomeOtherTag', 'Tagging7', 'Raddington', 'SHElectroValves', 'SwissCheeseFctry', 'Blabla', 'tag1', 'tag2', 'ElectroTag1', 'ReadingArea', 'LuttonMC',
-                        'SomeOtherTag', 'Tagging7', 'Raddington', 'SHElectroValves', 'SwissCheeseFctry'
-                    ];
-
-                    dragulaService.options($scope, 'weather-bag', {
-                        removeOnSpill: false,
-                        accepts: function (el, target, source, sibling) {
-                            //console.log('Accept', el, target, source);
-                            return true; // elements can be dropped in any of the `containers` by default
-                        },
-                        revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
-                    });
-
-                    dragulaService.options($scope, 'unused-bag', {
-                        removeOnSpill: false,
-                        accepts: function (el, target, source, sibling) {
-                            return true; // elements can be dropped in any of the `containers` by default
-                        },
-                        revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
-                    });
-
-                    $scope.$on('unused-bag.drop', function (e, el) {
-
-                        el.addClass('ex-moved');
-                    });
-
-                    $scope.$on('unused-bag.over', function (e, el, container) {
-                        container.addClass('ex-over');
-                    });
-
-                    $scope.$on('unused-bag.out', function (e, el, container) {
-                        container.removeClass('ex-over');
-                    });
-
-                    $scope.$on('unused-bag.drop-model', function (el, target, source) {
-                        //console.log(el, target, source);
-                    });
-
-                    $scope.$on('unused-bag.remove-model', function (el, target, source) {
-                        //console.log(el, target, source);
-                    });
+                        $scope.tagsGroups.forEach(function(val){
+                            val.open = false;
+                        });
+                        $scope.tagsGroups[index].open = true;
+                    };
 
                     $scope.removeAssignedTag = function(tags, index) {
                         $scope.ungroupedTags.push(tags[index]);
                         tags.splice(index, 1);
+                        $scope.updateGroup($scope.tagsGroups[index]);
+                    };
+
+                    $scope.addTagToGroup = function(index) {
+                        $scope.tagsGroups.forEach(function(group, gIndex){
+                            if (group.open) {
+                                group.tags.push($scope.ungroupedTags[index]);
+                                $scope.ungroupedTags.splice(index, 1);
+                                $scope.updateGroup($scope.tagsGroups[gIndex]);
+                            }
+                        });
                     };
 
                 }],
                 link: function(scope, element, attrs) {
-
-
 
 
 
