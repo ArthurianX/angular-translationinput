@@ -1,6 +1,6 @@
 angular.module('app', ['ngAnimate', angularDragula(angular), 'ui.bootstrap','tagsCategorizer']);
 
-angular.module('app').controller('DemoCtrl',function($scope,$http, dragulaService){
+angular.module('app').controller('DemoCtrl',function($scope,$http, dragulaService, $timeout){
 
     $scope.tagsGroups = [
         {id: 1, name: 'Weather Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'weather'},
@@ -13,14 +13,13 @@ angular.module('app').controller('DemoCtrl',function($scope,$http, dragulaServic
 
     $scope.ungroupedTags = [];
 
-    setTimeout(function(){
+    $timeout(function(){
 
         $scope.ungroupedTags = [
             'tag1', 'tag2', 'ElectroTag1', 'ReadingArea', 'LuttonMC', 'DixonskWh', 'CroatoanR', 'ReginaldCityHall',
             'SomeOtherTag', 'Tagging7', 'Raddington', 'SHElectroValves', 'SwissCheeseFctry', 'Blabla', 'tag1', 'tag2', 'ElectroTag1', 'ReadingArea', 'LuttonMC',
             'SomeOtherTag', 'Tagging7', 'Raddington', 'SHElectroValves', 'SwissCheeseFctry'
         ];
-        $scope.$apply();
 
     }, 1500);
 

@@ -10,10 +10,13 @@
             </div>
 
             <div class="bags" ng-init="makeVisible(0)">
-                <div class="bag clearfix"
+                <div
                      ng-repeat="group in tagsGroups track by $index"
+                     class="bag clearfix bag{{$index}}"
+                     id="bag bag{{$index}}"
                      ng-click="makeVisible($index)"
                      data-gid="{{group.id}}">
+                    <!--ng-init="hookGroups($last)"-->
                     <div class="title clearfix"
                          ng-class="{'editing': renameGroup[$index]}">
 
@@ -31,7 +34,11 @@
                     <div class="tags clearfix"
                          ng-show="group.open">
 
-                          <span class="tag" ng-repeat="tag in group.tags track by $index" data-tag="{{tag}}">
+                          <span class="tag"
+                                ng-repeat="tag in group.tags track by $index"
+                                data-tag="{{tag}}"
+                                data-index="{{$index}}">
+                              <!--ng-init="hookTags($last)"-->
                             <i class="fa fa-tag"></i> {{tag}} <i ng-click="removeAssignedTag(group.tags, $index)" class="glyphicon glyphicon-remove"></i>
                           </span>
                     </div>
@@ -42,7 +49,12 @@
         </div>
 
         <div class="ungrouped-tags col-md-6">
-        <span class="unsel-tag" ng-repeat="tag in ungroupedTags track by $index" data-tag="{{tag}}" ng-click="addTagToGroup($index)">
+        <span class="unsel-tag"
+              ng-repeat="tag in ungroupedTags track by $index"
+              data-tag="{{tag}}"
+              data-index="{{$index}}"
+              ng-click="addTagToGroup($index)"
+                >
             <i class="fa fa-tag"></i> {{tag}} <i ng-click="removeAssignedTag(group.tags, $index)" class="glyphicon glyphicon-remove"></i>
         </span>
         </div>

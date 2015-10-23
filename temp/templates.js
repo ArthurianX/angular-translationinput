@@ -14,10 +14,13 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "            </div>\n" +
     "\n" +
     "            <div class=\"bags\" ng-init=\"makeVisible(0)\">\n" +
-    "                <div class=\"bag clearfix\"\n" +
+    "                <div\n" +
     "                     ng-repeat=\"group in tagsGroups track by $index\"\n" +
+    "                     class=\"bag clearfix bag{{$index}}\"\n" +
+    "                     id=\"bag bag{{$index}}\"\n" +
     "                     ng-click=\"makeVisible($index)\"\n" +
     "                     data-gid=\"{{group.id}}\">\n" +
+    "                    <!--ng-init=\"hookGroups($last)\"-->\n" +
     "                    <div class=\"title clearfix\"\n" +
     "                         ng-class=\"{'editing': renameGroup[$index]}\">\n" +
     "\n" +
@@ -35,7 +38,11 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                    <div class=\"tags clearfix\"\n" +
     "                         ng-show=\"group.open\">\n" +
     "\n" +
-    "                          <span class=\"tag\" ng-repeat=\"tag in group.tags track by $index\" data-tag=\"{{tag}}\">\n" +
+    "                          <span class=\"tag\"\n" +
+    "                                ng-repeat=\"tag in group.tags track by $index\"\n" +
+    "                                data-tag=\"{{tag}}\"\n" +
+    "                                data-index=\"{{$index}}\">\n" +
+    "                              <!--ng-init=\"hookTags($last)\"-->\n" +
     "                            <i class=\"fa fa-tag\"></i> {{tag}} <i ng-click=\"removeAssignedTag(group.tags, $index)\" class=\"glyphicon glyphicon-remove\"></i>\n" +
     "                          </span>\n" +
     "                    </div>\n" +
@@ -46,7 +53,12 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "        </div>\n" +
     "\n" +
     "        <div class=\"ungrouped-tags col-md-6\">\n" +
-    "        <span class=\"unsel-tag\" ng-repeat=\"tag in ungroupedTags track by $index\" data-tag=\"{{tag}}\" ng-click=\"addTagToGroup($index)\">\n" +
+    "        <span class=\"unsel-tag\"\n" +
+    "              ng-repeat=\"tag in ungroupedTags track by $index\"\n" +
+    "              data-tag=\"{{tag}}\"\n" +
+    "              data-index=\"{{$index}}\"\n" +
+    "              ng-click=\"addTagToGroup($index)\"\n" +
+    "                >\n" +
     "            <i class=\"fa fa-tag\"></i> {{tag}} <i ng-click=\"removeAssignedTag(group.tags, $index)\" class=\"glyphicon glyphicon-remove\"></i>\n" +
     "        </span>\n" +
     "        </div>\n" +
