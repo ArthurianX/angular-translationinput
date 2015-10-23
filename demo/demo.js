@@ -24,7 +24,11 @@ angular.module('app').controller('DemoCtrl',function($scope,$http, dragulaServic
     }, 1500);
 
     $scope.addGroupExt = function(group){
-        console.log('Add new group');
+        group.id = Math.round(Math.random() * (100 - 10) + 10);
+        console.log('Added goup', group);
+        $timeout(function(){
+            $scope.tagsGroups.unshift(group);
+        }, 50);
     };
 
     $scope.updateGroupExt = function(group) {

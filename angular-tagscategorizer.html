@@ -15,7 +15,8 @@
                      class="bag clearfix bag{{$index}}"
                      id="bag bag{{$index}}"
                      ng-click="makeVisible($index)"
-                     data-gid="{{group.id}}">
+                     data-gid="{{group.id}}"
+                     data-index="{{$index}}">
                     <!--ng-init="hookGroups($last)"-->
                     <div class="title clearfix"
                          ng-class="{'editing': renameGroup[$index]}">

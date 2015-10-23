@@ -76,6 +76,10 @@
 
 }
 
+.ar-tags-categorizer .ar-tags-over {
+    background-color: rgba(98,217,242, 0.1);
+}
+
 .ar-tags-categorizer .unsel-tag.selected {
     background-color: #f21c0a;
     border-color: #f21c0a;

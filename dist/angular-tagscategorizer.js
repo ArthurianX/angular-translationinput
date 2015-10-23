@@ -31,9 +31,9 @@ angular.module('tagsCategorizer')
                     //Actions
                     $scope.addNewGroup = function(){
                         if ($scope.newGroup.length > 3) {
-                            $scope.tagsGroups.unshift({name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()});
+                            //$scope.tagsGroups.unshift({name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()});
+                            $scope.addGroup({group: {name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()}});
                             $scope.newGroup = '';
-                            $scope.addGroup($scope.newGroup);
                         }
                     };
 
@@ -116,10 +116,10 @@ angular.module('tagsCategorizer')
                             groupChange = $scope.tagsGroups[source];
                         } else {
 
-                            pushSpecific($scope.tagsGroups[dest-1].tags, tag[1], before);
+                            pushSpecific($scope.tagsGroups[dest].tags, tag[1], before);
                             $scope.ungroupedTags.splice(tag[0], 1);
 
-                            groupChange = $scope.tagsGroups[dest-1];
+                            groupChange = $scope.tagsGroups[dest];
                         }
 
                         // Callback UPDATE event
@@ -138,18 +138,17 @@ angular.module('tagsCategorizer')
                     var currEl;
 
                     var applyToModel = function(el, target, source, sibling) {
-
                         currEl = angular.element(el);
                         var tagsToUnused, bagDest, bagSource, pushBefore;
                         var tag = [angular.element(el).attr('data-index'), angular.element(el).attr('data-tag')];
 
                         if (angular.element(target).hasClass('ungrouped-tags')) {
                             tagsToUnused = true;
-                            bagSource = angular.element(source).parent().attr('data-gid');
+                            bagSource = angular.element(source).parent().attr('data-index');
                             bagDest = 'unused';
                         } else {
                             tagsToUnused = false;
-                            bagDest = angular.element(target).parent().attr('data-gid');
+                            bagDest = angular.element(target).parent().attr('data-index');
                             bagSource = 'unused';
                         }
 
@@ -199,17 +198,16 @@ angular.module('tagsCategorizer')
                             // Work the model instead of just leaving the elements
                             applyToModel(el, target, source, sibling);
                         }).on('over', function (el, container) {
-                            // Maybe do over classes
+                            angular.element(container).addClass('ar-tags-over');
                         }).on('out', function (el, container) {
-                            // Remove over class
+                            angular.element(container).removeClass('ar-tags-over');
                         });
 
                     /* Bad Watchers - REFACTOR */
-                    scope.$watch(
+                    scope.$watchCollection(
                         "tagsGroups",
                         function( newValue, oldValue ) {
                             if (newValue.length > 0) {
-
                                 $timeout(function(){
                                     for (var i=0; i < newValue.length; i++) {
                                         drake.containers.push(document.querySelector('.bag' + i + ' .tags'));
@@ -219,7 +217,7 @@ angular.module('tagsCategorizer')
                         }
                     );
 
-                    scope.$watch(
+                    scope.$watchCollection(
                         "ungroupedTags",
                         function( newValue, oldValue ) {
                             if (newValue.length > 0) {
@@ -284,7 +282,8 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                     class=\"bag clearfix bag{{$index}}\"\n" +
     "                     id=\"bag bag{{$index}}\"\n" +
     "                     ng-click=\"makeVisible($index)\"\n" +
-    "                     data-gid=\"{{group.id}}\">\n" +
+    "                     data-gid=\"{{group.id}}\"\n" +
+    "                     data-index=\"{{$index}}\">\n" +
     "                    <!--ng-init=\"hookGroups($last)\"-->\n" +
     "                    <div class=\"title clearfix\"\n" +
     "                         ng-class=\"{'editing': renameGroup[$index]}\">\n" +

@@ -19,7 +19,8 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                     class=\"bag clearfix bag{{$index}}\"\n" +
     "                     id=\"bag bag{{$index}}\"\n" +
     "                     ng-click=\"makeVisible($index)\"\n" +
-    "                     data-gid=\"{{group.id}}\">\n" +
+    "                     data-gid=\"{{group.id}}\"\n" +
+    "                     data-index=\"{{$index}}\">\n" +
     "                    <!--ng-init=\"hookGroups($last)\"-->\n" +
     "                    <div class=\"title clearfix\"\n" +
     "                         ng-class=\"{'editing': renameGroup[$index]}\">\n" +
