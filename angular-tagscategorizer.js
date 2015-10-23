@@ -28,9 +28,12 @@ angular.module('tagsCategorizer')
                     $scope.newGroup = '';
                     $scope.renameGroup = [];
 
+                    // Input Validation
+                    $scope.nameRx = /^[a-zA-Z0-9 ]+$/;
+
                     //Actions
                     $scope.addNewGroup = function(){
-                        if ($scope.newGroup.length > 3) {
+                        if (($scope.newGroup !== undefined)&&($scope.newGroup.length > 3)) {
                             //$scope.tagsGroups.unshift({name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()});
                             $scope.addGroup({group: {name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()}});
                             $scope.newGroup = '';
@@ -40,6 +43,12 @@ angular.module('tagsCategorizer')
                     $scope.checkAddNew = function(event){
                         if (event.keyCode == 13) {
                             $scope.addNewGroup();
+                        }
+                    };
+
+                    $scope.checkRenameGroup = function(event, index){
+                        if (event.keyCode == 13) {
+                            $scope.editGroup(event, index);
                         }
                     };
 
@@ -60,10 +69,20 @@ angular.module('tagsCategorizer')
                         e.preventDefault();
                     };
 
-                    $scope.deleteTagGroup = function(e, index){
-                        $scope.ungroupedTags = $scope.ungroupedTags.concat($scope.tagsGroups[index].tags);
-                        $scope.tagsGroups.splice(index, 1);
-                        $scope.deleteGroup($scope.tagsGroups[index]);
+                    $scope.deleteConf = 0;
+                    $scope.deleteTagGroup = function(e, index, checker){
+                        $scope.deleteConf += 1;
+
+                        if ($scope.deleteConf >= 2 && checker) {
+                            $scope.ungroupedTags = $scope.ungroupedTags.concat($scope.tagsGroups[index].tags);
+                            $scope.tagsGroups.splice(index, 1);
+                            $scope.deleteGroup($scope.tagsGroups[index]);
+                            $scope.deleteConf = 0;
+                        }
+
+                        if ($scope.deleteConf >= 2 && !checker) {
+                            $scope.deleteConf = 0;
+                        }
                     };
 
                     $scope.makeVisible = function(index) {
@@ -135,6 +154,8 @@ angular.module('tagsCategorizer')
 
                 }],
                 link: function(scope, element, attrs) {
+
+                    // Main Logic
                     var currEl;
 
                     var applyToModel = function(el, target, source, sibling) {

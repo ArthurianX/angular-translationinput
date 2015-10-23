@@ -91,6 +91,15 @@
     padding: 5px 5px 0px 5px;
     font-size: 1.2em;
 }
+.ar-tags-categorizer .groups-list .remove-group.confirm {
+    padding: 0 7px 0 10px;
+    background-color: rgba(220, 20, 60, 0.1);
+}
+
+.ar-tags-categorizer .groups-list .remove-group.confirm i {
+    color: mediumseagreen;
+}
+
 .ar-tags-categorizer .groups-list .edit-group {
     padding: 5px 2px 0px 5px;
     font-size: 1.2em;
@@ -156,10 +165,6 @@
     background-color: #f1f1f1;
     padding: 10px 5px 10px 15px;
 }
-.ar-tags-categorizer .bag .title.editing {
-    border-top:2px solid mediumseagreen;
-}
-
 
 .ar-tags-categorizer .add-group {
     background-color: #f1f1f1;
@@ -170,6 +175,10 @@
     width: 100%;
     outline: none;
     padding-left: 5px;
+}
+
+.ar-tags-categorizer .add-group input.ng-invalid-pattern {
+    border: 2px solid rgba(220, 20, 60, 0.2);
 }
 
 .ar-tags-categorizer .add-group button {
@@ -184,4 +193,19 @@
     font-size: 1.2em;
 }
 
+.ar-tags-categorizer .add-group button:disabled i {
+    color: #777777;
+}
+
+.ar-tags-categorizer .bag .title .confirm-deletion {
+    padding: 0 7px 0 10px;
+    background-color: rgba(220, 20, 60, 0.1);
+    margin: 0 7px 0 0px;
+}
+
+.ar-tags-categorizer .bag .tags.confirm-deletion .tag {
+    background-color: #f21c0a;
+    border-color: #f21c0a;
+    opacity: 0.65;
+}
 

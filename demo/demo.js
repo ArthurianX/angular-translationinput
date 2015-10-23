@@ -23,9 +23,20 @@ angular.module('app').controller('DemoCtrl',function($scope,$http, dragulaServic
 
     }, 1500);
 
+    var checkDuplicates = function(groups, group){
+
+        for (var i = 0; i < groups.length; i++) {
+          if (groups[i].name == group.name) {
+              group.name +="1";
+          }
+        };
+
+    };
+
     $scope.addGroupExt = function(group){
         group.id = Math.round(Math.random() * (100 - 10) + 10);
         console.log('Added goup', group);
+        checkDuplicates($scope.tagsGroups, group);
         $timeout(function(){
             $scope.tagsGroups.unshift(group);
         }, 50);

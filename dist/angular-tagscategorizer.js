@@ -28,9 +28,12 @@ angular.module('tagsCategorizer')
                     $scope.newGroup = '';
                     $scope.renameGroup = [];
 
+                    // Input Validation
+                    $scope.nameRx = /^[a-zA-Z0-9 ]+$/;
+
                     //Actions
                     $scope.addNewGroup = function(){
-                        if ($scope.newGroup.length > 3) {
+                        if (($scope.newGroup !== undefined)&&($scope.newGroup.length > 3)) {
                             //$scope.tagsGroups.unshift({name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()});
                             $scope.addGroup({group: {name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()}});
                             $scope.newGroup = '';
@@ -40,6 +43,12 @@ angular.module('tagsCategorizer')
                     $scope.checkAddNew = function(event){
                         if (event.keyCode == 13) {
                             $scope.addNewGroup();
+                        }
+                    };
+
+                    $scope.checkRenameGroup = function(event, index){
+                        if (event.keyCode == 13) {
+                            $scope.editGroup(event, index);
                         }
                     };
 
@@ -60,10 +69,20 @@ angular.module('tagsCategorizer')
                         e.preventDefault();
                     };
 
-                    $scope.deleteTagGroup = function(e, index){
-                        $scope.ungroupedTags = $scope.ungroupedTags.concat($scope.tagsGroups[index].tags);
-                        $scope.tagsGroups.splice(index, 1);
-                        $scope.deleteGroup($scope.tagsGroups[index]);
+                    $scope.deleteConf = 0;
+                    $scope.deleteTagGroup = function(e, index, checker){
+                        $scope.deleteConf += 1;
+
+                        if ($scope.deleteConf >= 2 && checker) {
+                            $scope.ungroupedTags = $scope.ungroupedTags.concat($scope.tagsGroups[index].tags);
+                            $scope.tagsGroups.splice(index, 1);
+                            $scope.deleteGroup($scope.tagsGroups[index]);
+                            $scope.deleteConf = 0;
+                        }
+
+                        if ($scope.deleteConf >= 2 && !checker) {
+                            $scope.deleteConf = 0;
+                        }
                     };
 
                     $scope.makeVisible = function(index) {
@@ -135,6 +154,8 @@ angular.module('tagsCategorizer')
 
                 }],
                 link: function(scope, element, attrs) {
+
+                    // Main Logic
                     var currEl;
 
                     var applyToModel = function(el, target, source, sibling) {
@@ -271,9 +292,21 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "        <div class=\"groups-list col-md-6\">\n" +
     "\n" +
     "            <div class=\"add-group\">\n" +
+    "                <form name=\"groupName\">\n" +
     "\n" +
-    "                <input type=\"text\" ng-model=\"newGroup\" placeholder=\"Add new group\" ng-keypress=\"checkAddNew($event)\">\n" +
-    "                <button ng-click=\"addNewGroup()\"><i class=\"fa fa-plus\"></i></button>\n" +
+    "                    <input type=\"text\"\n" +
+    "                           ng-model=\"newGroup\"\n" +
+    "                           placeholder=\"Add new group\"\n" +
+    "                           ng-keypress=\"checkAddNew($event)\"\n" +
+    "                           ng-pattern=\"nameRx\"\n" +
+    "                           name=\"gName\">\n" +
+    "                    <button ng-click=\"addNewGroup()\"\n" +
+    "                            ng-disabled=\"groupName.gName.$error.pattern\">\n" +
+    "                        <i class=\"fa fa-plus\"></i>\n" +
+    "                    </button>\n" +
+    "\n" +
+    "                </form>\n" +
+    "\n" +
     "            </div>\n" +
     "\n" +
     "            <div class=\"bags\" ng-init=\"makeVisible(0)\">\n" +
@@ -285,22 +318,39 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                     data-gid=\"{{group.id}}\"\n" +
     "                     data-index=\"{{$index}}\">\n" +
     "                    <!--ng-init=\"hookGroups($last)\"-->\n" +
-    "                    <div class=\"title clearfix\"\n" +
-    "                         ng-class=\"{'editing': renameGroup[$index]}\">\n" +
+    "                    <div class=\"title clearfix\">\n" +
     "\n" +
     "                        <span ng-if=\"!renameGroup[$index]\">{{group.name}}</span>\n" +
-    "                        <input type=\"text\" class=\"rename\" ng-model=\"group.name\" ng-click=\"stopEvent($event)\" ng-if=\"renameGroup[$index] && group.open\">\n" +
+    "                        <input type=\"text\" class=\"rename\"\n" +
+    "                               ng-model=\"group.name\"\n" +
+    "                               ng-click=\"stopEvent($event)\"\n" +
+    "                               ng-keypress=\"checkRenameGroup($event, $index)\"\n" +
+    "                               ng-if=\"renameGroup[$index] && group.open\">\n" +
     "                        <div class=\"pull-right\">\n" +
     "                            <span class=\"edit-group\" ng-if=\"group.open\" ng-click=\"editGroup($event, $index)\"><i class=\"fa fa-pencil-square-o\"></i></span>\n" +
-    "                            <span class=\"remove-group\" ng-if=\"group.open\" ng-click=\"deleteTagGroup($event, $index)\"><i class=\"fa fa-times\"></i></span>\n" +
+    "\n" +
+    "                            <span class=\"remove-group confirm\"\n" +
+    "                                  ng-if=\"deleteConf && group.open\"\n" +
+    "                                  ng-click=\"deleteTagGroup($event, $index, true)\">\n" +
+    "                                <i class=\"fa fa-check\"></i>\n" +
+    "                            </span>\n" +
+    "                            <span class=\"remove-group\"\n" +
+    "                                  ng-class=\"{'confirm-deletion': deleteConf > 0}\"\n" +
+    "                                  ng-if=\"group.open\"\n" +
+    "                                  ng-click=\"deleteTagGroup($event, $index)\">\n" +
+    "                                <i class=\"fa fa-times\"></i>\n" +
+    "                            </span>\n" +
+    "\n" +
     "                            <button type=\"button\" class=\"btn btn-info nr-tags\">{{group.tags.length}} <i class=\"fa fa-tags\"></i></button>\n" +
+    "\n" +
     "                            <i class=\"arrow glyphicon\" ng-class=\"{'glyphicon-chevron-down': group.open, 'glyphicon-chevron-right': !group.open}\"></i>\n" +
     "                        </div>\n" +
     "\n" +
     "                    </div>\n" +
     "\n" +
     "                    <div class=\"tags clearfix\"\n" +
-    "                         ng-show=\"group.open\">\n" +
+    "                         ng-show=\"group.open\"\n" +
+    "                         ng-class=\"{'confirm-deletion': deleteConf > 0}\">\n" +
     "\n" +
     "                          <span class=\"tag\"\n" +
     "                                ng-repeat=\"tag in group.tags track by $index\"\n" +

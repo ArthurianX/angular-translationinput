@@ -4,9 +4,21 @@
         <div class="groups-list col-md-6">
 
             <div class="add-group">
+                <form name="groupName">
 
-                <input type="text" ng-model="newGroup" placeholder="Add new group" ng-keypress="checkAddNew($event)">
-                <button ng-click="addNewGroup()"><i class="fa fa-plus"></i></button>
+                    <input type="text"
+                           ng-model="newGroup"
+                           placeholder="Add new group"
+                           ng-keypress="checkAddNew($event)"
+                           ng-pattern="nameRx"
+                           name="gName">
+                    <button ng-click="addNewGroup()"
+                            ng-disabled="groupName.gName.$error.pattern">
+                        <i class="fa fa-plus"></i>
+                    </button>
+
+                </form>
+
             </div>
 
             <div class="bags" ng-init="makeVisible(0)">
@@ -18,22 +30,39 @@
                      data-gid="{{group.id}}"
                      data-index="{{$index}}">
                     <!--ng-init="hookGroups($last)"-->
-                    <div class="title clearfix"
-                         ng-class="{'editing': renameGroup[$index]}">
+                    <div class="title clearfix">
 
                         <span ng-if="!renameGroup[$index]">{{group.name}}</span>
-                        <input type="text" class="rename" ng-model="group.name" ng-click="stopEvent($event)" ng-if="renameGroup[$index] && group.open">
+                        <input type="text" class="rename"
+                               ng-model="group.name"
+                               ng-click="stopEvent($event)"
+                               ng-keypress="checkRenameGroup($event, $index)"
+                               ng-if="renameGroup[$index] && group.open">
                         <div class="pull-right">
                             <span class="edit-group" ng-if="group.open" ng-click="editGroup($event, $index)"><i class="fa fa-pencil-square-o"></i></span>
-                            <span class="remove-group" ng-if="group.open" ng-click="deleteTagGroup($event, $index)"><i class="fa fa-times"></i></span>
+
+                            <span class="remove-group confirm"
+                                  ng-if="deleteConf && group.open"
+                                  ng-click="deleteTagGroup($event, $index, true)">
+                                <i class="fa fa-check"></i>
+                            </span>
+                            <span class="remove-group"
+                                  ng-class="{'confirm-deletion': deleteConf > 0}"
+                                  ng-if="group.open"
+                                  ng-click="deleteTagGroup($event, $index)">
+                                <i class="fa fa-times"></i>
+                            </span>
+
                             <button type="button" class="btn btn-info nr-tags">{{group.tags.length}} <i class="fa fa-tags"></i></button>
+
                             <i class="arrow glyphicon" ng-class="{'glyphicon-chevron-down': group.open, 'glyphicon-chevron-right': !group.open}"></i>
                         </div>
 
                     </div>
 
                     <div class="tags clearfix"
-                         ng-show="group.open">
+                         ng-show="group.open"
+                         ng-class="{'confirm-deletion': deleteConf > 0}">
 
                           <span class="tag"
                                 ng-repeat="tag in group.tags track by $index"
