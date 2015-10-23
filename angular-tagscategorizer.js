@@ -123,6 +123,9 @@ angular.module('tagsCategorizer')
                         }
 
                         // Callback UPDATE event
+                        $timeout(function(){
+                            $scope.$apply();
+                        }, 100);
                         $scope.updateGroup(groupChange);
 
                         // At the end of the operations delete the "COPIED" tag
