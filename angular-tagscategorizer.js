@@ -57,7 +57,7 @@ angular.module('tagsCategorizer')
                         e.stopPropagation();
                         if ($scope.renameGroup[index]){
                             //Means we're closing the edit ?
-                            $scope.updateGroup($scope.tagsGroups[index]);
+                            $scope.updateGroup({group: $scope.tagsGroups[index]});
                         }
                         $scope.renameGroup[index] = !$scope.renameGroup[index];
 
@@ -75,8 +75,8 @@ angular.module('tagsCategorizer')
 
                         if ($scope.deleteConf >= 2 && checker) {
                             $scope.ungroupedTags = $scope.ungroupedTags.concat($scope.tagsGroups[index].tags);
+                            $scope.deleteGroup({group: $scope.tagsGroups[index]});
                             $scope.tagsGroups.splice(index, 1);
-                            $scope.deleteGroup($scope.tagsGroups[index]);
                             $scope.deleteConf = 0;
                         }
 
@@ -97,10 +97,10 @@ angular.module('tagsCategorizer')
                         $scope.tagsGroups[index].open = true;
                     };
 
-                    $scope.removeAssignedTag = function(tags, index) {
-                        $scope.ungroupedTags.push(tags[index]);
-                        tags.splice(index, 1);
-                        $scope.updateGroup($scope.tagsGroups[index]);
+                    $scope.removeAssignedTag = function(group, index) {
+                        $scope.ungroupedTags.push(group.tags[index]);
+                        group.tags.splice(index, 1);
+                        $scope.updateGroup({group: group});
                     };
 
                     $scope.addTagToGroup = function(index) {
@@ -108,7 +108,7 @@ angular.module('tagsCategorizer')
                             if (group.open) {
                                 group.tags.push($scope.ungroupedTags[index]);
                                 $scope.ungroupedTags.splice(index, 1);
-                                $scope.updateGroup($scope.tagsGroups[gIndex]);
+                                $scope.updateGroup({group: $scope.tagsGroups[gIndex]});
                             }
                         });
                     };
@@ -145,7 +145,7 @@ angular.module('tagsCategorizer')
                         $timeout(function(){
                             $scope.$apply();
                         }, 100);
-                        $scope.updateGroup(groupChange);
+                        $scope.updateGroup({group: groupChange});
 
                         // At the end of the operations delete the "COPIED" tag
                         //$scope.removeTag();
@@ -228,7 +228,7 @@ angular.module('tagsCategorizer')
                     scope.$watchCollection(
                         "tagsGroups",
                         function( newValue, oldValue ) {
-                            if (newValue.length > 0) {
+                            if (newValue !== undefined && newValue.length > 0 && angular.isArray(newValue)) {
                                 $timeout(function(){
                                     for (var i=0; i < newValue.length; i++) {
                                         drake.containers.push(document.querySelector('.bag' + i + ' .tags'));
@@ -241,7 +241,7 @@ angular.module('tagsCategorizer')
                     scope.$watchCollection(
                         "ungroupedTags",
                         function( newValue, oldValue ) {
-                            if (newValue.length > 0) {
+                            if (newValue !== undefined && newValue.length > 0) {
                                 $timeout(function(){
                                     var tags = angular.element(element.children().children().children()[1])[0];
                                     drake.containers.push(tags);

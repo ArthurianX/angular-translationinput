@@ -73,7 +73,7 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                                data-tag=\"{{tag}}\"\n" +
     "                                data-index=\"{{$index}}\">\n" +
     "                              <!--ng-init=\"hookTags($last)\"-->\n" +
-    "                            <i class=\"fa fa-tag\"></i> {{tag}} <i ng-click=\"removeAssignedTag(group.tags, $index)\" class=\"glyphicon glyphicon-remove\"></i>\n" +
+    "                            <i class=\"fa fa-tag\"></i> {{tag}} <i ng-click=\"removeAssignedTag(group, $index)\" class=\"glyphicon glyphicon-remove\"></i>\n" +
     "                          </span>\n" +
     "                    </div>\n" +
     "\n" +
