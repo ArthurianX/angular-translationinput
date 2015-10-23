@@ -45,9 +45,12 @@
   "keywords": [
     "tags",
     "categorizer",
-    "tags categorizer",
+    "tags",
+    "categorizer",
     "organizer",
-    "tags organizer"
+    "tags",
+    "organizer"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "moduleType": []
 }
