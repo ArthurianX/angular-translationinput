@@ -246,6 +246,9 @@ angular.module('tagsCategorizer')
                                     var tags = angular.element(element.children().children().children()[1])[0];
                                     drake.containers.push(tags);
                                 }, 100);
+                            } else {
+                                // Means the array is probably empty
+                                scope.ungroupedTags = [];
                             }
                         }
                     );
