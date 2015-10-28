@@ -370,14 +370,15 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "        </div>\n" +
     "\n" +
     "        <div class=\"ungrouped-tags col-md-6\">\n" +
-    "        <span class=\"unsel-tag\"\n" +
-    "              ng-repeat=\"tag in ungroupedTags track by $index\"\n" +
-    "              data-tag=\"{{tag}}\"\n" +
-    "              data-index=\"{{$index}}\"\n" +
-    "              ng-click=\"addTagToGroup($index)\"\n" +
-    "                >\n" +
-    "            <i class=\"fa fa-tag\"></i> {{tag}} <i ng-click=\"removeAssignedTag(group.tags, $index)\" class=\"glyphicon glyphicon-remove\"></i>\n" +
-    "        </span>\n" +
+    "            <h4>Uncategorized tags</h4>\n" +
+    "            <span class=\"unsel-tag\"\n" +
+    "                  ng-repeat=\"tag in ungroupedTags track by $index\"\n" +
+    "                  data-tag=\"{{tag}}\"\n" +
+    "                  data-index=\"{{$index}}\"\n" +
+    "                  ng-click=\"addTagToGroup($index)\"\n" +
+    "                    >\n" +
+    "                <i class=\"fa fa-tag\"></i> {{tag}} <i ng-click=\"removeAssignedTag(group.tags, $index)\" class=\"glyphicon glyphicon-remove\"></i>\n" +
+    "            </span>\n" +
     "        </div>\n" +
     "\n" +
     "    </div>\n" +

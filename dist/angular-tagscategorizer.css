@@ -146,6 +146,14 @@
     display: none;
 }
 
+.ar-tags-categorizer .ungrouped-tags {
+    border: 3px solid #f1f1f1;
+    padding: 0px 10px 10px 10px;
+
+}
+
+
+
 .ar-tags-categorizer .panel-title a {
     outline: none;
 }
