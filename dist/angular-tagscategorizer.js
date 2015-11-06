@@ -195,7 +195,6 @@ angular.module('tagsCategorizer')
                             return true; // elements are always draggable by default
                         },
                         accepts: function (el, target, source, sibling) {
-                            //console.log(el, target, source, sibling);
                             return true; // elements can be dropped in any of the `containers` by default
                         },
                         invalid: function (el, target) {
@@ -217,7 +216,11 @@ angular.module('tagsCategorizer')
                         })
                         .on('drop', function (el, target, source, sibling) {
                             // Work the model instead of just leaving the elements
-                            applyToModel(el, target, source, sibling);
+                            if (target == source) {
+                                return false;
+                            } else {
+                                applyToModel(el, target, source, sibling);
+                            }
                         }).on('over', function (el, container) {
                             angular.element(container).addClass('ar-tags-over');
                         }).on('out', function (el, container) {
@@ -252,33 +255,6 @@ angular.module('tagsCategorizer')
                             }
                         }
                     );
-
-
-                    /*attrs.$observe("tagsGroups", function(){
-                        console.log( "Inner $observe() fired." );
-                    });
-
-                    attrs.$observe("ungroupedTags", function(){
-                        console.log( "UG $observe() fired." );
-                    });*/
-
-
-                    /*scope.hookGroups = function(val){
-                     if (val) {
-                     var bags = angular.element(element.children().children().children().children()[1]).children();
-                     console.log(bags);
-                     }
-
-                     };
-
-                     scope.hookTags = function(val){
-                     if (val) {
-                     var tags = angular.element(element.children().children().children()[1]);
-                     console.log(tags);
-                     }
-
-                     };*/
-
                 }
             };
         }
