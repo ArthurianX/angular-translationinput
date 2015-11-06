@@ -40,7 +40,8 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                        <input type=\"text\" class=\"rename\"\n" +
     "                               ng-model=\"group.name\"\n" +
     "                               ng-click=\"stopEvent($event)\"\n" +
-    "                               ng-keypress=\"checkRenameGroup($event, $index)\"\n" +
+    "                               ng-pattern=\"nameRx\"\n" +
+    "                               ng-keypress=\"checkRenameGroup($event, $index, group.name)\"\n" +
     "                               ng-if=\"renameGroup[$index] && group.open\">\n" +
     "                        <div class=\"pull-right\">\n" +
     "                            <span class=\"edit-group\" ng-if=\"group.open\" ng-click=\"editGroup($event, $index)\"><i class=\"fa fa-pencil-square-o\"></i></span>\n" +

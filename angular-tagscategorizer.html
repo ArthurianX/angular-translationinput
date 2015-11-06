@@ -36,7 +36,8 @@
                         <input type="text" class="rename"
                                ng-model="group.name"
                                ng-click="stopEvent($event)"
-                               ng-keypress="checkRenameGroup($event, $index)"
+                               ng-pattern="nameRx"
+                               ng-keypress="checkRenameGroup($event, $index, group.name)"
                                ng-if="renameGroup[$index] && group.open">
                         <div class="pull-right">
                             <span class="edit-group" ng-if="group.open" ng-click="editGroup($event, $index)"><i class="fa fa-pencil-square-o"></i></span>
