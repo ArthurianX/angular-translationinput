@@ -29,7 +29,7 @@ angular.module('tagsCategorizer')
                     $scope.renameGroup = [];
 
                     // Input Validation
-                    $scope.nameRx = /^[a-zA-Z0-9 ]{1,30}$/;
+                    $scope.nameRx = /^[a-zA-Z0-9 ]{1,25}$/;
 
                     //Actions
                     $scope.addNewGroup = function(){

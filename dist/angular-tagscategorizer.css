@@ -105,6 +105,12 @@
     font-size: 1.2em;
 }
 
+.ar-tags-categorizer .groups-list button.remove-group, .ar-tags-categorizer .groups-list button.edit-group {
+    border: 0px solid #fff;
+    background-color: transparent;
+    outline: none;
+}
+
 .ar-tags-categorizer .bags .bag .tags {
     min-height: 78px;
     padding: 5px;

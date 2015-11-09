@@ -44,19 +44,21 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                               ng-keypress=\"checkRenameGroup($event, $index, group.name)\"\n" +
     "                               ng-if=\"renameGroup[$index] && group.open\">\n" +
     "                        <div class=\"pull-right\">\n" +
-    "                            <span class=\"edit-group\" ng-if=\"group.open\" ng-click=\"editGroup($event, $index)\"><i class=\"fa fa-pencil-square-o\"></i></span>\n" +
+    "                            <button class=\"edit-group\" ng-if=\"group.open\" ng-click=\"editGroup($event, $index)\"><i class=\"fa fa-pencil-square-o\"></i></button>\n" +
     "\n" +
-    "                            <span class=\"remove-group confirm\"\n" +
+    "                            <button class=\"remove-group confirm\"\n" +
     "                                  ng-if=\"deleteConf && group.open\"\n" +
+    "                                  ng-disabled=\"renameGroup[$index]\"\n" +
     "                                  ng-click=\"deleteTagGroup($event, $index, true)\">\n" +
     "                                <i class=\"fa fa-check\"></i>\n" +
-    "                            </span>\n" +
-    "                            <span class=\"remove-group\"\n" +
+    "                            </button>\n" +
+    "                            <button class=\"remove-group\"\n" +
     "                                  ng-class=\"{'confirm-deletion': deleteConf > 0}\"\n" +
     "                                  ng-if=\"group.open\"\n" +
+    "                                  ng-disabled=\"renameGroup[$index]\"\n" +
     "                                  ng-click=\"deleteTagGroup($event, $index)\">\n" +
     "                                <i class=\"fa fa-times\"></i>\n" +
-    "                            </span>\n" +
+    "                            </button>\n" +
     "\n" +
     "                            <button type=\"button\" class=\"btn btn-info nr-tags\">{{group.tags.length}} <i class=\"fa fa-tags\"></i></button>\n" +
     "\n" +

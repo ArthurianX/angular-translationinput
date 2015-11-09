@@ -40,19 +40,21 @@
                                ng-keypress="checkRenameGroup($event, $index, group.name)"
                                ng-if="renameGroup[$index] && group.open">
                         <div class="pull-right">
-                            <span class="edit-group" ng-if="group.open" ng-click="editGroup($event, $index)"><i class="fa fa-pencil-square-o"></i></span>
+                            <button class="edit-group" ng-if="group.open" ng-click="editGroup($event, $index)"><i class="fa fa-pencil-square-o"></i></button>
 
-                            <span class="remove-group confirm"
+                            <button class="remove-group confirm"
                                   ng-if="deleteConf && group.open"
+                                  ng-disabled="renameGroup[$index]"
                                   ng-click="deleteTagGroup($event, $index, true)">
                                 <i class="fa fa-check"></i>
-                            </span>
-                            <span class="remove-group"
+                            </button>
+                            <button class="remove-group"
                                   ng-class="{'confirm-deletion': deleteConf > 0}"
                                   ng-if="group.open"
+                                  ng-disabled="renameGroup[$index]"
                                   ng-click="deleteTagGroup($event, $index)">
                                 <i class="fa fa-times"></i>
-                            </span>
+                            </button>
 
                             <button type="button" class="btn btn-info nr-tags">{{group.tags.length}} <i class="fa fa-tags"></i></button>
 
