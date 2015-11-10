@@ -44,7 +44,10 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                               ng-keypress=\"checkRenameGroup($event, $index, group.name)\"\n" +
     "                               ng-if=\"renameGroup[$index] && group.open\">\n" +
     "                        <div class=\"pull-right\">\n" +
-    "                            <button class=\"edit-group\" ng-if=\"group.open\" ng-click=\"editGroup($event, $index)\"><i class=\"fa fa-pencil-square-o\"></i></button>\n" +
+    "                            <button class=\"edit-group\"\n" +
+    "                                    ng-if=\"group.open\"\n" +
+    "                                    ng-disabled=\"deleteConf > 0\"\n" +
+    "                                    ng-click=\"editGroup($event, $index)\"><i class=\"fa fa-pencil-square-o\"></i></button>\n" +
     "\n" +
     "                            <button class=\"remove-group confirm\"\n" +
     "                                  ng-if=\"deleteConf && group.open\"\n" +

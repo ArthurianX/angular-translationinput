@@ -1,6 +1,6 @@
-angular.module('app', ['ngAnimate', angularDragula(angular), 'ui.bootstrap','tagsCategorizer']);
+angular.module('app', ['ngAnimate', 'ui.bootstrap','tagsCategorizer']);
 
-angular.module('app').controller('DemoCtrl',function($scope,$http, dragulaService, $timeout){
+angular.module('app').controller('DemoCtrl',function($scope,$http, $timeout){
 
     $scope.tagsGroups = [
         {id: 1, name: 'Weather Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'weather'},

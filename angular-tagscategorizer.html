@@ -40,7 +40,10 @@
                                ng-keypress="checkRenameGroup($event, $index, group.name)"
                                ng-if="renameGroup[$index] && group.open">
                         <div class="pull-right">
-                            <button class="edit-group" ng-if="group.open" ng-click="editGroup($event, $index)"><i class="fa fa-pencil-square-o"></i></button>
+                            <button class="edit-group"
+                                    ng-if="group.open"
+                                    ng-disabled="deleteConf > 0"
+                                    ng-click="editGroup($event, $index)"><i class="fa fa-pencil-square-o"></i></button>
 
                             <button class="remove-group confirm"
                                   ng-if="deleteConf && group.open"

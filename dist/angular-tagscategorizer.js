@@ -143,19 +143,19 @@ angular.module('tagsCategorizer')
 
                             groupChange = $scope.tagsGroups[source];
                         } else {
-
                             pushSpecific($scope.tagsGroups[dest].tags, tag[1], before);
                             $scope.ungroupedTags.splice(tag[0], 1);
 
                             groupChange = $scope.tagsGroups[dest];
                         }
 
+
+
                         // Callback UPDATE event
                         $timeout(function(){
                             $scope.$apply();
-                        }, 100);
+                        }, 80);
                         $scope.updateGroup({group: groupChange});
-
                         // At the end of the operations delete the "COPIED" tag
                         //$scope.removeTag();
 
@@ -223,6 +223,14 @@ angular.module('tagsCategorizer')
                         .on('drag', function (el) {
                             // Indicate drag
                         })
+                        .on('shadow', function (el, container, source) {
+                            //console.log('Shadow', el, container, source);
+                            // Indicate drag
+                        })
+                        .on('remove', function (el, container, source) {
+                            //console.log('Remove', el, container, source);
+                            // Indicate drag
+                        })
                         .on('drop', function (el, target, source, sibling) {
                             // Work the model instead of just leaving the elements
                             if (target == source) {
@@ -230,6 +238,8 @@ angular.module('tagsCategorizer')
                             } else {
                                 applyToModel(el, target, source, sibling);
                             }
+                            drake.cancel(true);
+
                         }).on('over', function (el, container) {
                             angular.element(container).addClass('ar-tags-over');
                         }).on('out', function (el, container) {
@@ -250,7 +260,7 @@ angular.module('tagsCategorizer')
                         }
                     );
 
-                    scope.$watchCollection(
+                    var watchUngroupedTags = scope.$watchCollection(
                         "ungroupedTags",
                         function( newValue, oldValue ) {
                             if (newValue !== undefined && newValue.length > 0) {
@@ -258,6 +268,9 @@ angular.module('tagsCategorizer')
                                     var tags = angular.element(element.children().children().children()[1])[0];
                                     drake.containers.push(tags);
                                 }, 100);
+
+                                //Destroy watch once ungrouped tags is added to the drake containers list.
+                                watchUngroupedTags();
                             } else {
                                 // Means the array is probably empty
                                 scope.ungroupedTags = [];
@@ -316,7 +329,10 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                               ng-keypress=\"checkRenameGroup($event, $index, group.name)\"\n" +
     "                               ng-if=\"renameGroup[$index] && group.open\">\n" +
     "                        <div class=\"pull-right\">\n" +
-    "                            <button class=\"edit-group\" ng-if=\"group.open\" ng-click=\"editGroup($event, $index)\"><i class=\"fa fa-pencil-square-o\"></i></button>\n" +
+    "                            <button class=\"edit-group\"\n" +
+    "                                    ng-if=\"group.open\"\n" +
+    "                                    ng-disabled=\"deleteConf > 0\"\n" +
+    "                                    ng-click=\"editGroup($event, $index)\"><i class=\"fa fa-pencil-square-o\"></i></button>\n" +
     "\n" +
     "                            <button class=\"remove-group confirm\"\n" +
     "                                  ng-if=\"deleteConf && group.open\"\n" +
