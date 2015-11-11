@@ -29,7 +29,7 @@ angular.module('tagsCategorizer')
                     $scope.renameGroup = [];
 
                     // Input Validation
-                    $scope.nameRx = /^[a-zA-Z0-9 ]{1,25}$/;
+                    $scope.nameRx = /^[a-zA-Z0-9 ]{3,25}$/;
 
                     //Actions
                     $scope.addNewGroup = function(){
@@ -66,6 +66,9 @@ angular.module('tagsCategorizer')
                         e.stopPropagation();
                         if ($scope.renameGroup[index]){
                             //Means we're closing the edit ?
+                            if ($scope.tagsGroups[index].name === '') {
+                                return false;
+                            }
                             $scope.updateGroup({group: $scope.tagsGroups[index]});
                         }
                         $scope.renameGroup[index] = !$scope.renameGroup[index];
