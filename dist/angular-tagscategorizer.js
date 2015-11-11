@@ -103,6 +103,10 @@ angular.module('tagsCategorizer')
                             return false;
                         }
 
+                        if ($scope.tagsGroups === undefined || $scope.tagsGroups.length === 0) {
+                            return false;
+                        }
+
                         $scope.tagsGroups.forEach(function(val){
                             val.open = false;
                         });
@@ -263,7 +267,7 @@ angular.module('tagsCategorizer')
                         }
                     );
 
-                    var watchUngroupedTags = scope.$watchCollection(
+                    scope.$watchCollection(
                         "ungroupedTags",
                         function( newValue, oldValue ) {
                             if (newValue !== undefined && newValue.length > 0) {
@@ -271,9 +275,6 @@ angular.module('tagsCategorizer')
                                     var tags = angular.element(element.children().children().children()[1])[0];
                                     drake.containers.push(tags);
                                 }, 100);
-
-                                //Destroy watch once ungrouped tags is added to the drake containers list.
-                                watchUngroupedTags();
                             } else {
                                 // Means the array is probably empty
                                 scope.ungroupedTags = [];
