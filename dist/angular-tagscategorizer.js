@@ -18,15 +18,66 @@ angular.module('tagsCategorizer')
                     ungroupedTags: '=ungroupedTags',
                     addGroup: '&addGroup',
                     updateGroup: '&updateGroup',
-                    deleteGroup: '&deleteGroup'
+                    deleteGroup: '&deleteGroup',
+                    translations: '=translations',
+                    resolveOperation: '=resolveOperation'
                 },
                 templateUrl: 'angular-tagscategorizer.html',
                 controller: ['$scope', function tagsCategorizerCtrl($scope){
 
-                    // Init
+                    // Synchronisation System Logic
 
+                    var ID = function () {
+                        // Math.random should be unique because of its seeding algorithm.
+                        // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+                        // after the decimal.
+                        return '_' + Math.random().toString(36).substr(2, 9);
+                    };
+
+                    $scope.operationsControl = [];
+
+                    $scope.operationManagement = {
+
+                        editGroup: function(group){
+                            var genID = ID();
+                            group.waitOperation = genID;
+                            $scope.operationsControl.push(genID);
+                            return genID;
+                        },
+
+                        deleteGroup: function(group){
+
+                        },
+
+                        moveTag: function(tag, place){
+                            // track tags new position
+                        },
+                        resolve: function(code){
+                            if (code === '') {
+                                return false;
+                            }
+                            console.log('Resolving for code', code);
+
+                            var indexOfCode = $scope.operationsControl.indexOf(code);
+
+                            if (indexOfCode > -1) {
+                                // Search for the code in groups names
+                                $scope.tagsGroups.forEach(function(val){
+                                    if (val.waitOperation === code) {
+                                        val.waitOperation = false;
+                                        $scope.operationsControl.splice(indexOfCode, 1);
+                                    }
+                                });
+
+
+                            }
+                        }
+                    };
+
+                    // Init
                     $scope.newGroup = '';
                     $scope.renameGroup = [];
+                    $scope.i18n = $scope.translations || {uncateg: 'Uncategorized tags', newgroup: 'Add new Group'};
 
                     // Input Validation
                     $scope.nameRx = /^[a-zA-Z0-9 ]{3,25}$/;
@@ -35,7 +86,11 @@ angular.module('tagsCategorizer')
                     $scope.addNewGroup = function(){
                         if (($scope.newGroup !== undefined)&&($scope.newGroup.length > 3)) {
                             //$scope.tagsGroups.unshift({name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()});
-                            $scope.addGroup({group: {name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()}});
+                            $scope.addGroup(
+                                {
+                                    group: {name: $scope.newGroup, tags: [], short: $scope.newGroup.toLowerCase()}
+                                }
+                            );
                             $scope.newGroup = '';
                         }
                     };
@@ -69,7 +124,12 @@ angular.module('tagsCategorizer')
                             if ($scope.tagsGroups[index].name === '') {
                                 return false;
                             }
-                            $scope.updateGroup({group: $scope.tagsGroups[index]});
+                            $scope.updateGroup(
+                                {
+                                    group: $scope.tagsGroups[index],
+                                    operationId: $scope.operationManagement.editGroup($scope.tagsGroups[index])
+                                }
+                            );
                         }
                         $scope.renameGroup[index] = !$scope.renameGroup[index];
 
@@ -281,6 +341,14 @@ angular.module('tagsCategorizer')
                             }
                         }
                     );
+
+                    scope.$watch(
+                        "resolveOperation",
+                        function( newValue, oldValue ) {
+                            scope.operationManagement.resolve(newValue);
+                        }
+                    );
+
                 }
             };
         }
@@ -301,7 +369,7 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "\n" +
     "                    <input type=\"text\"\n" +
     "                           ng-model=\"newGroup\"\n" +
-    "                           placeholder=\"Add new group\"\n" +
+    "                           placeholder=\"{{i18n.newgroup}}\"\n" +
     "                           ng-keypress=\"checkAddNew($event)\"\n" +
     "                           ng-pattern=\"nameRx\"\n" +
     "                           name=\"gName\">\n" +
@@ -320,6 +388,7 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                     class=\"bag clearfix bag{{$index}}\"\n" +
     "                     id=\"bag bag{{$index}}\"\n" +
     "                     ng-click=\"makeVisible($index)\"\n" +
+    "                     ng-class=\"{'waiting': group.waitOperation}\"\n" +
     "                     data-gid=\"{{group.id}}\"\n" +
     "                     data-index=\"{{$index}}\">\n" +
     "                    <!--ng-init=\"hookGroups($last)\"-->\n" +
@@ -378,7 +447,7 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "        </div>\n" +
     "\n" +
     "        <div class=\"ungrouped-tags col-md-6\">\n" +
-    "            <h4>Uncategorized tags</h4>\n" +
+    "            <h4>{{i18n.uncateg}}</h4>\n" +
     "            <span class=\"unsel-tag\"\n" +
     "                  ng-repeat=\"tag in ungroupedTags track by $index\"\n" +
     "                  data-tag=\"{{tag}}\"\n" +

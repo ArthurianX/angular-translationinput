@@ -38,10 +38,11 @@
             <tags-categorizer
                     tags-groups="tagsGroups"
                     ungrouped-tags="ungroupedTags"
-                    add-group="addGroupExt(group)"
-                    update-group="updateGroupExt(group)"
-                    delete-group="deleteGroupExt(group)">
-
+                    add-group="addGroupExt(group, operationId)"
+                    update-group="updateGroupExt(group, operationId)"
+                    delete-group="deleteGroupExt(group, operationId)"
+                    translations="trans"
+                    resolve-operation="sendOperationCode">
             </tags-categorizer>
         </div>
 

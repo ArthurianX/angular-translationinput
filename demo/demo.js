@@ -33,21 +33,44 @@ angular.module('app').controller('DemoCtrl',function($scope,$http, $timeout){
 
     };
 
-    $scope.addGroupExt = function(group){
+    $scope.addGroupExt = function(group, operationId){
+
         group.id = Math.round(Math.random() * (100 - 10) + 10);
+
         console.log('Added goup', group);
+
         checkDuplicates($scope.tagsGroups, group);
+
         $timeout(function(){
             $scope.tagsGroups.unshift(group);
         }, 50);
+
     };
 
-    $scope.updateGroupExt = function(group) {
-        console.log('Update the group, send stuff to server, refresh data');
+    $scope.updateGroupExt = function(group, operationId) {
+
+        console.log('Update the group, send stuff to server, refresh data and operation id is ', operationId);
+
+        setTimeout(function(){
+
+            console.log('Send operation code back');
+            $scope.sendOperationCode = operationId;
+
+            console.log($scope.sendOperationCode);
+            $scope.$apply();
+
+        }, 1000);
     };
 
     $scope.deleteGroupExt = function(group) {
         console.log('Delete group, update stuff, send to server, etc');
+    };
+
+    $scope.sendOperationCode = '';
+
+    $scope.trans = {
+        uncateg: "Taguri fara categorie",
+        newgroup:"Grup Nou"
     };
 
 

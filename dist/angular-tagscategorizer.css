@@ -118,6 +118,10 @@
     border-style: solid;
 }
 
+.ar-tags-categorizer .waiting {
+    opacity: 0.7;
+}
+
 .ar-tags-categorizer  .bags .bag .tags.ex-over {
     background-color: #f2f2f2;
 }

@@ -12,7 +12,7 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "\n" +
     "                    <input type=\"text\"\n" +
     "                           ng-model=\"newGroup\"\n" +
-    "                           placeholder=\"Add new group\"\n" +
+    "                           placeholder=\"{{i18n.newgroup}}\"\n" +
     "                           ng-keypress=\"checkAddNew($event)\"\n" +
     "                           ng-pattern=\"nameRx\"\n" +
     "                           name=\"gName\">\n" +
@@ -31,6 +31,7 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "                     class=\"bag clearfix bag{{$index}}\"\n" +
     "                     id=\"bag bag{{$index}}\"\n" +
     "                     ng-click=\"makeVisible($index)\"\n" +
+    "                     ng-class=\"{'waiting': group.waitOperation}\"\n" +
     "                     data-gid=\"{{group.id}}\"\n" +
     "                     data-index=\"{{$index}}\">\n" +
     "                    <!--ng-init=\"hookGroups($last)\"-->\n" +
@@ -89,7 +90,7 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "        </div>\n" +
     "\n" +
     "        <div class=\"ungrouped-tags col-md-6\">\n" +
-    "            <h4>Uncategorized tags</h4>\n" +
+    "            <h4>{{i18n.uncateg}}</h4>\n" +
     "            <span class=\"unsel-tag\"\n" +
     "                  ng-repeat=\"tag in ungroupedTags track by $index\"\n" +
     "                  data-tag=\"{{tag}}\"\n" +
