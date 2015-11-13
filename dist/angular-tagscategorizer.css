@@ -120,6 +120,7 @@
 
 .ar-tags-categorizer .waiting {
     opacity: 0.7;
+    pointer-events: none;
 }
 
 .ar-tags-categorizer  .bags .bag .tags.ex-over {
@@ -187,6 +188,16 @@
 .ar-tags-categorizer .add-group {
     background-color: #f1f1f1;
     padding: 7px;
+}
+
+.ar-tags-categorizer .add-group.error {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.ar-tags-categorizer .add-group.error i {
+    color: #f21c0a;
+    opacity: 0.8;
 }
 
 .ar-tags-categorizer .add-group input {

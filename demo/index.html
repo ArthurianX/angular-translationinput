@@ -35,6 +35,7 @@
 
         <div class="row">
             <legend></legend>
+
             <tags-categorizer
                     tags-groups="tagsGroups"
                     ungrouped-tags="ungroupedTags"
@@ -42,8 +43,10 @@
                     update-group="updateGroupExt(group, operationId)"
                     delete-group="deleteGroupExt(group, operationId)"
                     translations="trans"
-                    resolve-operation="sendOperationCode">
+                    resolve-operation="sendOperationCode"
+                    refresh-data="refreshData()">
             </tags-categorizer>
+            <small>Deleting this last group will cause an error</small>
         </div>
 
     </div>

@@ -25,6 +25,10 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "\n" +
     "            </div>\n" +
     "\n" +
+    "            <div class=\"add-group error\" ng-if=\"refreshDataError\">\n" +
+    "                <i class=\"fa fa-exclamation-triangle\"></i> {{i18n.operationError}} <i class=\"fa fa-exclamation-triangle\"></i>\n" +
+    "            </div>\n" +
+    "\n" +
     "            <div class=\"bags\" ng-init=\"makeVisible(0)\">\n" +
     "                <div\n" +
     "                     ng-repeat=\"group in tagsGroups track by $index\"\n" +

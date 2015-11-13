@@ -54,7 +54,7 @@ angular.module('app').controller('DemoCtrl',function($scope,$http, $timeout){
         setTimeout(function(){
 
             console.log('Send operation code back');
-            $scope.sendOperationCode = operationId;
+            $scope.sendOperationCode = [operationId];
 
             console.log($scope.sendOperationCode);
             $scope.$apply();
@@ -62,16 +62,46 @@ angular.module('app').controller('DemoCtrl',function($scope,$http, $timeout){
         }, 1000);
     };
 
-    $scope.deleteGroupExt = function(group) {
-        console.log('Delete group, update stuff, send to server, etc');
+    $scope.deleteGroupExt = function(group, operationId) {
+        console.log('Delete group, update stuff, send to server, etc with operation id', operationId);
+
+        if (group.id === 6) {
+            return false;
+        }
+
+        setTimeout(function(){
+
+            console.log('Send operation code back');
+            $scope.sendOperationCode = [operationId, true];
+            $scope.$apply();
+
+        }, 1000);
     };
 
     $scope.sendOperationCode = '';
 
     $scope.trans = {
         uncateg: "Taguri fara categorie",
-        newgroup:"Grup Nou"
+        newgroup:"Grup Nou",
+        operationError: "Eroare, reimprospatare date"
     };
 
+
+    $scope.refreshData = function(){
+        $scope.tagsGroups = [
+            {id: 1, name: 'Weather Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'weather'},
+            {id: 2, name: 'Area Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'area'},
+            {id: 3, name: 'Electric Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'electric'},
+            {id: 4, name: 'Region Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'region'},
+            {id: 5, name: 'Gas Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'gas'},
+            {id: 6, name: 'Heat Tags', tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], short: 'heat'},
+        ];
+
+        $scope.ungroupedTags = [
+            'tag1', 'tag2', 'ElectroTag1', 'ReadingArea', 'LuttonMC', 'DixonskWh', 'CroatoanR', 'ReginaldCityHall',
+            'SomeOtherTag', 'Tagging7', 'Raddington', 'SHElectroValves', 'SwissCheeseFctry', 'Blabla', 'tag1', 'tag2', 'ElectroTag1', 'ReadingArea', 'LuttonMC',
+            'SomeOtherTag', 'Tagging7', 'Raddington', 'SHElectroValves', 'SwissCheeseFctry'
+        ];
+    };
 
 });

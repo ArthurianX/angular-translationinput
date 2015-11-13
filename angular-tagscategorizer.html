@@ -21,6 +21,10 @@
 
             </div>
 
+            <div class="add-group error" ng-if="refreshDataError">
+                <i class="fa fa-exclamation-triangle"></i> {{i18n.operationError}} <i class="fa fa-exclamation-triangle"></i>
+            </div>
+
             <div class="bags" ng-init="makeVisible(0)">
                 <div
                      ng-repeat="group in tagsGroups track by $index"

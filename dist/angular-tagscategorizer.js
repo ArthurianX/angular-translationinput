@@ -20,7 +20,8 @@ angular.module('tagsCategorizer')
                     updateGroup: '&updateGroup',
                     deleteGroup: '&deleteGroup',
                     translations: '=translations',
-                    resolveOperation: '=resolveOperation'
+                    resolveOperation: '=resolveOperation',
+                    refreshData: '&refreshData'
                 },
                 templateUrl: 'angular-tagscategorizer.html',
                 controller: ['$scope', function tagsCategorizerCtrl($scope){
@@ -36,39 +37,92 @@ angular.module('tagsCategorizer')
 
                     $scope.operationsControl = [];
 
+                    $scope.refreshDataError = false;
+                    var operationError;
+                    var handleError = function(){
+                        $scope.refreshData();
+                    };
+
                     $scope.operationManagement = {
 
                         editGroup: function(group){
+                            $timeout.cancel(operationError);
+                            operationError = $timeout(function() {
+                                $scope.refreshDataError = true;
+                                handleError();
+                            }, 4000);
+
                             var genID = ID();
                             group.waitOperation = genID;
                             $scope.operationsControl.push(genID);
                             return genID;
                         },
 
-                        deleteGroup: function(group){
+                        deleteGroup: function(index, group){
 
+                            operationError = $timeout(function() {
+                                $scope.refreshDataError = true;
+                                handleError();
+                            }, 4000);
+
+                            var genID = ID();
+                            group.waitOperation = genID;
+                            $scope.operationsControl.push(genID);
+                            return genID;
                         },
 
                         moveTag: function(tag, place){
                             // track tags new position
                         },
-                        resolve: function(code){
+                        resolve: function(resolver){
+
+                            //Cancel the error.
+                            $timeout.cancel(operationError);
+
+                            var code = resolver[0];
+
                             if (code === '') {
                                 return false;
                             }
-                            console.log('Resolving for code', code);
-
                             var indexOfCode = $scope.operationsControl.indexOf(code);
 
                             if (indexOfCode > -1) {
+
                                 // Search for the code in groups names
-                                $scope.tagsGroups.forEach(function(val){
+                                $scope.tagsGroups.forEach(function(val, index){
+
+                                    if (val.waitOperation === code) {
+                                        if (resolver[1]){
+                                            //Delete operation
+                                            $scope.tagsGroups.splice(index, 1);
+                                            $scope.operationsControl.splice(indexOfCode, 1);
+                                            // Open the first group
+                                            $scope.makeVisible(0);
+                                            return false;
+                                        } else {
+                                            val.waitOperation = false;
+                                            $scope.operationsControl.splice(indexOfCode, 1);
+                                            return false;
+                                        }
+                                    }
+
+                                    if (val.tags) {
+                                        val.tags.forEach(function(tag){
+                                            if (tag.waitOperation === code) {
+                                                tag.waitOperation = false;
+                                                $scope.operationsControl.splice(indexOfCode, 1);
+                                            }
+                                        });
+                                    }
+                                });
+
+                                // Search for the code in ungrouped tags
+                                $scope.ungroupedTags.forEach(function(val){
                                     if (val.waitOperation === code) {
                                         val.waitOperation = false;
                                         $scope.operationsControl.splice(indexOfCode, 1);
                                     }
                                 });
-
 
                             }
                         }
@@ -77,7 +131,7 @@ angular.module('tagsCategorizer')
                     // Init
                     $scope.newGroup = '';
                     $scope.renameGroup = [];
-                    $scope.i18n = $scope.translations || {uncateg: 'Uncategorized tags', newgroup: 'Add new Group'};
+                    $scope.i18n = $scope.translations || {uncateg: 'Uncategorized tags', newgroup: 'Add new Group', operationError: 'Operation error, refreshing all data.'};
 
                     // Input Validation
                     $scope.nameRx = /^[a-zA-Z0-9 ]{3,25}$/;
@@ -132,8 +186,6 @@ angular.module('tagsCategorizer')
                             );
                         }
                         $scope.renameGroup[index] = !$scope.renameGroup[index];
-
-
                     };
 
                     $scope.stopEvent = function(e) {
@@ -147,8 +199,12 @@ angular.module('tagsCategorizer')
 
                         if ($scope.deleteConf >= 2 && checker) {
                             $scope.ungroupedTags = $scope.ungroupedTags.concat($scope.tagsGroups[index].tags);
-                            $scope.deleteGroup({group: $scope.tagsGroups[index]});
-                            $scope.tagsGroups.splice(index, 1);
+                            $scope.deleteGroup(
+                                {
+                                    group: $scope.tagsGroups[index],
+                                    operationId: $scope.operationManagement.deleteGroup(index, $scope.tagsGroups[index])
+                                }
+                            );
                             $scope.deleteConf = 0;
                         }
 
@@ -176,7 +232,12 @@ angular.module('tagsCategorizer')
                     $scope.removeAssignedTag = function(group, index) {
                         $scope.ungroupedTags.push(group.tags[index]);
                         group.tags.splice(index, 1);
-                        $scope.updateGroup({group: group});
+                        $scope.updateGroup(
+                            {
+                                group: group,
+                                operationId: $scope.operationManagement.editGroup(group)
+                            }
+                        );
                     };
 
                     $scope.addTagToGroup = function(index) {
@@ -184,7 +245,13 @@ angular.module('tagsCategorizer')
                             if (group.open) {
                                 group.tags.push($scope.ungroupedTags[index]);
                                 $scope.ungroupedTags.splice(index, 1);
-                                $scope.updateGroup({group: $scope.tagsGroups[gIndex]});
+                                $scope.updateGroup(
+                                    {
+                                        group: $scope.tagsGroups[gIndex],
+                                        operationId: $scope.operationManagement.editGroup($scope.tagsGroups[gIndex])
+
+                                    }
+                                );
                             }
                         });
                     };
@@ -216,13 +283,16 @@ angular.module('tagsCategorizer')
                             groupChange = $scope.tagsGroups[dest];
                         }
 
-
-
-                        // Callback UPDATE event
                         $timeout(function(){
                             $scope.$apply();
                         }, 80);
-                        $scope.updateGroup({group: groupChange});
+
+                        $scope.updateGroup(
+                            {
+                                group: groupChange,
+                                operationId: $scope.operationManagement.editGroup(groupChange)
+                            }
+                        );
                         // At the end of the operations delete the "COPIED" tag
                         //$scope.removeTag();
 
@@ -317,6 +387,10 @@ angular.module('tagsCategorizer')
                     scope.$watchCollection(
                         "tagsGroups",
                         function( newValue, oldValue ) {
+
+                            //When there's new data coming in, automatically turn off the error message
+                            scope.refreshDataError = false;
+
                             if (newValue !== undefined && newValue.length > 0 && angular.isArray(newValue)) {
                                 $timeout(function(){
                                     for (var i=0; i < newValue.length; i++) {
@@ -330,6 +404,10 @@ angular.module('tagsCategorizer')
                     scope.$watchCollection(
                         "ungroupedTags",
                         function( newValue, oldValue ) {
+
+                            //When there's new data coming in, automatically turn off the error message
+                            scope.refreshDataError = false;
+
                             if (newValue !== undefined && newValue.length > 0) {
                                 $timeout(function(){
                                     var tags = angular.element(element.children().children().children()[1])[0];
@@ -380,6 +458,10 @@ angular.module('tagsCategorizer').run(['$templateCache', function($templateCache
     "\n" +
     "                </form>\n" +
     "\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"add-group error\" ng-if=\"refreshDataError\">\n" +
+    "                <i class=\"fa fa-exclamation-triangle\"></i> {{i18n.operationError}} <i class=\"fa fa-exclamation-triangle\"></i>\n" +
     "            </div>\n" +
     "\n" +
     "            <div class=\"bags\" ng-init=\"makeVisible(0)\">\n" +
