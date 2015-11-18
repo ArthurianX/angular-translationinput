@@ -1,0 +1,8 @@
+<div class="ar-translation-input">
+    <ul>
+        <li ng-repeat="lang in languages track by $index" ng-animate="{enter: 'aranimate-enter', leave: 'aranimate-leave'}">
+            <input type="text" ng-model="lang.text">
+            <span>{{lang.symbol}}</span>
+        </li>
+    </ul>
+</div>

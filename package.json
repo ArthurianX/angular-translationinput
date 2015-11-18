@@ -1,11 +1,11 @@
 {
-  "name": "angular-tagscategorizer",
-  "main": "angular-tagscategorizer.js",
+  "name": "angular-translationinput",
+  "main": "angular-translationinput.js",
   "version": "0.1.0",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ArthurianX/angular-tagscategorizer.git"
+    "url": "git://github.com/ArthurianX/angular-translationinput.git"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

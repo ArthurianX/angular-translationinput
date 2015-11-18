@@ -1,9 +1,9 @@
 {
-  "name": "angular-tagscategorizer",
+  "name": "angular-translationinput",
   "version": "0.1.0",
   "main": [
-    "dist/angular-tagscategorizer.js",
-    "dist/angular-tagscategorizer.css"
+    "dist/angular-translationinput.js",
+    "dist/angular-translationinput.css"
   ],
   "dependencies": {
     "angular": "~1.2.18",
@@ -20,9 +20,9 @@
     "temp",
     "demo",
     "lib",
-    "./angular-tagscategorizer.css",
-    "./angular-tagscategorizer.html",
-    "./angular-tagscategorizer.js",
+    "./angular-translationinput.css",
+    "./angular-translationinput.html",
+    "./angular-translationinput.js",
     "Gruntfile.js",
     "package.json",
     "README.md",
@@ -36,7 +36,7 @@
     "angular": "~1.2.18",
     "angular-animate": "~1.2.18"
   },
-  "homepage": "https://github.com/ArthurianX/angular-tagscategorizer",
+  "homepage": "https://github.com/ArthurianX/angular-translationinput",
   "authors": [
     "Kovacs Arthur <kovacs.arthur.kraid@gmail.com>"
   ],

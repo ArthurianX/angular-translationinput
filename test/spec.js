@@ -1,4 +1,4 @@
-describe('tagsCategorizer', function() {
+describe('translationInput', function() {
 
 	beforeEach(module('app'));
 
@@ -18,7 +18,7 @@ describe('tagsCategorizer', function() {
 
 	it('should show the overlay during promise', function() {
 
-		this.element = compile('<div tags-categorizer="my_promise"></div>')(scope);
+		this.element = compile('<div translation-input="my_promise"></div>')(scope);
 		angular.element('body').append(this.element);
 
 		this.testPromise = q.defer();
@@ -40,7 +40,7 @@ describe('tagsCategorizer', function() {
 
 	it('should show the overlay during multiple promises', function() {
 
-		this.element = compile('<div tags-categorizer="[my_promise,my_promise2]"></div>')(scope);
+		this.element = compile('<div translation-input="[my_promise,my_promise2]"></div>')(scope);
 		angular.element('body').append(this.element);
 
 		this.testPromise = q.defer();
@@ -69,7 +69,7 @@ describe('tagsCategorizer', function() {
 
 	it('should load custom templates', function(){
 
-		this.element = compile('<div tags-categorizer="{promise:my_promise,templateUrl:\'test-custom-template.html\'}"></div>')(scope);
+		this.element = compile('<div translation-input="{promise:my_promise,templateUrl:\'test-custom-template.html\'}"></div>')(scope);
 		angular.element('body').append(this.element);
 
 		httpBackend.flush();
@@ -82,7 +82,7 @@ describe('tagsCategorizer', function() {
 
 	it('should delay when delay provided.', function() {
 
-		this.element = compile('<div tags-categorizer="{promise:my_promise,delay:300}"></div>')(scope);
+		this.element = compile('<div translation-input="{promise:my_promise,delay:300}"></div>')(scope);
 		angular.element('body').append(this.element);
 
 		this.testPromise = q.defer();
@@ -107,7 +107,7 @@ describe('tagsCategorizer', function() {
 
 	it('should use minDuration correctly.', function() {
 
-		this.element = compile('<div tags-categorizer="{promise:my_promise,minDuration:1000}"></div>')(scope);
+		this.element = compile('<div translation-input="{promise:my_promise,minDuration:1000}"></div>')(scope);
 		angular.element('body').append(this.element);
 
 		this.testPromise = q.defer();

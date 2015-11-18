@@ -19,7 +19,7 @@ module.exports = function (grunt) {
           livereloadOnError: false,
           spawn: false
         },
-        files: ['angular-tagscategorizer.html','angular-tagscategorizer.js','angular-tagscategorizer.css','dist/**/*','demo/**/*'],
+        files: ['angular-translationinput.html','angular-translationinput.js','angular-translationinput.css','dist/**/*','demo/**/*'],
         tasks: ['jshint','build']
       }
     },
@@ -28,12 +28,12 @@ module.exports = function (grunt) {
         options: {
           jshintrc: '.jshintrc'
         },
-        src: 'angular-tagscategorizer.js'
+        src: 'angular-translationinput.js'
       }
     },
     jasmine: {
       unit: {
-        src: ['./bower_components/jquery/dist/jquery.js','./bower_components/angular/angular.js','./bower_components/angular-animate/angular-animate.js','./bower_components/angular-mocks/angular-mocks.js','./dist/angular-tagscategorizer.js','./demo/demo.js'],
+        src: ['./bower_components/jquery/dist/jquery.js','./bower_components/angular/angular.js','./bower_components/angular-animate/angular-animate.js','./bower_components/angular-mocks/angular-mocks.js','./dist/angular-translationinput.js','./demo/demo.js'],
         options: {
           specs: 'test/*.js'
         }
@@ -42,37 +42,37 @@ module.exports = function (grunt) {
     ngtemplates: {
       main: {
         options: {
-          module:'tagsCategorizer',
+          module:'translationInput',
           base:''
         },
-        src:'angular-tagscategorizer.html',
+        src:'angular-translationinput.html',
         dest: 'temp/templates.js'
       }
     },
     concat: {
       main: {
-        src: ['angular-tagscategorizer.js', 'temp/templates.js'],
-        dest: 'dist/angular-tagscategorizer.js'
+        src: ['angular-translationinput.js', 'temp/templates.js'],
+        dest: 'dist/angular-translationinput.js'
       }
     },
     copy: {
       main: {
         files: [
-          {src:'angular-tagscategorizer.css',dest:'dist/'}
+          {src:'angular-translationinput.css',dest:'dist/'}
         ]
       }
     },
     uglify: {
       main: {
         files: [
-        {src:'dist/angular-tagscategorizer.js',dest:'dist/angular-tagscategorizer.min.js'}
+        {src:'dist/angular-translationinput.js',dest:'dist/angular-translationinput.min.js'}
         ]
       }
     },
     cssmin: {
       main: {
         files: {
-          'dist/angular-tagscategorizer.min.css': 'dist/angular-tagscategorizer.css'
+          'dist/angular-translationinput.min.css': 'dist/angular-translationinput.css'
         }
       }
     }

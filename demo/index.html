@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
-    <title>Angular tagsCategorizer Demo</title>
+    <title>Angular translationInput Demo</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet' type='text/css' />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
-    <link href="../dist/angular-tagscategorizer.css" rel="stylesheet">
+    <link href="../dist/angular-translationinput.css" rel="stylesheet">
     <link href="../bower_components/dragula/dist/dragula.css" rel="stylesheet">
     <link href="../bower_components/v-accordion/dist/v-accordion.min.css" rel="stylesheet">
     <link href="gh-fork-ribbon.css" rel="stylesheet">
@@ -19,7 +19,7 @@
 
     <div class="github-fork-ribbon-wrapper right">
         <div class="github-fork-ribbon">
-            <a href="https://github.com/arthurianx/angular-tagscategorizer">Star on GitHub</a>
+            <a href="https://github.com/arthurianx/angular-translationinput">Star on GitHub</a>
         </div>
     </div>
 
@@ -27,8 +27,8 @@
         <div class="row">
 
             <div class="col-md-12">
-                <h2>angular-tagscategorizer (WIP)</h2>
-                <p class="lead">Angular Tags Categorizer</p>
+                <h2>angular-translationinput (WIP)</h2>
+                <p class="lead">Angular Translation Input</p>
             </div>
 
         </div>
@@ -36,20 +36,45 @@
         <div class="row">
             <legend></legend>
 
-            <tags-categorizer
-                    tags-groups="tagsGroups"
-                    ungrouped-tags="ungroupedTags"
-                    add-group="addGroupExt(group, operationId)"
-                    update-group="updateGroupExt(group, operationId)"
-                    delete-group="deleteGroupExt(group, operationId)"
-                    translations="trans"
-                    resolve-operation="sendOperationCode"
-                    refresh-data="refreshData()">
-            </tags-categorizer>
-            <small>Deleting this last group will cause an error</small>
+            <input type="text" ng-model="testtranslation" translation-input="translationConfiguration">
         </div>
 
     </div>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p><p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+
+
+
 
 </div>
 
@@ -59,7 +84,7 @@
 <script src="../bower_components/angular-animate/angular-animate.js"></script>
 <script src="../bower_components/dragula/dist/dragula.js"></script>
 <script src="../bower_components/v-accordion/dist/v-accordion.js"></script>
-<script src="../dist/angular-tagscategorizer.js"></script>
+<script src="../dist/angular-translationinput.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.0/ui-bootstrap-tpls.min.js'></script>
 <script src="demo.js"></script>
 
